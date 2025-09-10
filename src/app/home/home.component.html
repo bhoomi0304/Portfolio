@@ -1,0 +1,42 @@
+<section id="home" class="home">
+  <div class="home-container">
+    <!-- Left: Text -->
+    <div class="home-text">
+      <h1>Hello, I'm <span class="highlight">Bhoomika</span></h1>
+      <h2>Aspiring Full-Stack Developer</h2>
+      <p>
+        I am passionate about building modern web applications with 
+        <b>Angular</b> and <b>.NET Core</b>.  
+        Always learning, always improving 🚀
+      </p>
+      <div class="buttons">
+        
+        <a href="#projects" class="btn">View My Projects</a>
+        <a href="#contact" class="btn secondary">Contact Me</a>
+
+        
+        <a href="assets/Bhoomika_.pdf" target="_blank" class="btn resume">📄 View Resume</a>
+
+       
+        <button class="btn character-btn" (click)="toggleAbout()">✨ Know Bhoomika Better</button>
+      </div>
+
+      <!-- Hidden personal about section -->
+      <div *ngIf="showAbout" class="personal-about">
+        <h3> About Me Beyond Tech</h3>
+        <p>
+          I'm an <b>extrovert</b> who loves connecting with people 🤝.  
+          I adapt easily to new environments 🌍 and I’m socially active,  
+          always bringing positivity and creativity to my team 🚀.  
+          Outside of coding, I enjoy learning new skills, sharing knowledge,  
+          and making meaningful connections ✨.
+        </p>
+      </div>
+    </div>
+ 
+    <!-- Right: Photo -->
+    <div class="home-image">
+      <img src="./imgs/bhoomika.png" alt="My Photo">
+    </div>
+  </div>
+</section>

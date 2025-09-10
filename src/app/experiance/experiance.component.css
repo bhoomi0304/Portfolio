@@ -1,0 +1,42 @@
+.experience {
+  padding: 60px 20px;
+  background: #f0f4f8;
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* centers content horizontally */
+}
+/* Fix typo in selector */
+.experience .section-title {
+  text-align: center;
+  margin-bottom: 40px;
+}
+.experience-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 25px;
+  max-width: 1000px;
+  margin: auto;
+}
+
+.experience-card {
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+  transition: transform 0.3s;
+}
+
+.experience-card:hover {
+  transform: translateY(-5px);
+}
+
+.experience-card h3 {
+  color: #4b6cb7;
+  margin-bottom: 5px;
+}
+
+.experience-card .duration {
+  font-size: 0.9rem;
+  color: #555;
+  margin-bottom: 10px;
+}

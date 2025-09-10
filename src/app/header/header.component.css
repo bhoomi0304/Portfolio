@@ -1,0 +1,36 @@
+.navbar {
+    position: fixed; 
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1030; 
+    
+    
+  }
+  
+  .navbar-brand {
+    font-size: 2rem; 
+    color: rgb(17, 17, 226);
+  }
+  
+  .navbar-nav .nav-item {
+    margin-left: 1rem;
+  }
+  
+  body {
+    padding:80px;
+   
+  }
+  .navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000; /* Ensure it stays above other elements */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Optional shadow for better separation */
+  }
+  
+  body {
+    margin-top: 70px; /* Push the body content down, matching the height of the header */
+  }
+  
