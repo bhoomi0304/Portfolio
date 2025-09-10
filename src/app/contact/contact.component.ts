@@ -8,22 +8,26 @@ import emailjs from '@emailjs/browser';
   styleUrls: ['./contact.component.css']
 })
 export class ContactComponent {
+  successMessage = '';
+  errorMessage = '';
+
   sendEmail(e: Event) {
     e.preventDefault();
 
     emailjs.sendForm(
-      'YOUR_SERVICE_ID',  // from EmailJS
-      'YOUR_TEMPLATE_ID', // from EmailJS
+      'service_jnavche',     // ✅ your Service ID
+      'template_ieoq1nn',    // ✅ your Template ID
       e.target as HTMLFormElement,
-      'YOUR_PUBLIC_KEY'   // from EmailJS
+      'bK-ItbqFXLm8oWPDq'    // ✅ your Public Key
     ).then(
-      (result) => {
-        alert("✅ Message sent successfully!");
-      },
-      (error) => {
-        alert("❌ Failed to send. Please try again.");
-        console.error(error.text);
-      }
-    );
-  }
+    (result) => {
+      alert("✅ Message sent successfully!"); // This pops up a browser alert
+      (e.target as HTMLFormElement).reset(); // Optional: reset form
+    },
+    (error) => {
+      alert("❌ Failed to send. Please try again.");
+      console.error(error.text);
+    }
+  );
+}
 }
