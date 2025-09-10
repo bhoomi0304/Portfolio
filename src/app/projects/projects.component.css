@@ -3,6 +3,7 @@
   background: linear-gradient(135deg, #f9f9f9, #e6ecf7);
 }
 
+/* Section Title */
 .section-title {
   text-align: center;
   margin-bottom: 50px;
@@ -11,21 +12,11 @@
 .section-title h2 {
   font-size: 2.2rem;
   color: #182848;
-  position: relative;
-  display: inline-block;
   font-weight: bold;
+  text-align: center;
 }
 
-.section-title h2::after {
-  content: "";
-  width: 70%;
-  height: 4px;
-  background: linear-gradient(90deg, #4b6cb7, #182848);
-  display: block;
-  margin: 10px auto 0;
-  border-radius: 3px;
-}
-
+/* Projects Grid */
 .projects-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
@@ -34,41 +25,29 @@
   margin: auto;
 }
 
+/* Project Card */
 .project-card {
   background: #fff;
   padding: 25px;
   border-radius: 15px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.08);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-  position: relative;
-  overflow: hidden;
-}
-
-.project-card::before {
-     pointer-events: none; /* ✅ makes overlay non-clickable */
-  content: "";
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   height: 100%;
-  background: linear-gradient(120deg, rgba(75,108,183,0.15), rgba(24,40,72,0.15));
-  transition: left 0.4s ease;
-}
-
-.project-card:hover::before {
-  left: 0;
 }
 
 .project-card:hover {
   transform: translateY(-8px);
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 12px 30px rgba(0,0,0,0.15);
 }
 
 .project-card h3 {
   font-size: 1.5rem;
-  margin-bottom: 10px;
   color: #4b6cb7;
+  margin-bottom: 10px;
   font-weight: 600;
 }
 
@@ -86,6 +65,14 @@
   line-height: 1.6;
 }
 
+/* Buttons in Project Cards */
+.project-links {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
 .project-links a {
   text-decoration: none;
   display: inline-flex;
@@ -93,14 +80,20 @@
   gap: 8px;
   color: #fff;
   background: linear-gradient(90deg, #4b6cb7, #182848);
-  padding: 10px 18px;
+  padding: 10px 20px;
   border-radius: 8px;
+  font-weight: 600;
   transition: background 0.3s, transform 0.2s;
-  margin-right: 12px;
-  font-size: 0.95rem;
 }
 
 .project-links a:hover {
   background: linear-gradient(90deg, #182848, #4b6cb7);
   transform: scale(1.05);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .projects-grid {
+    grid-template-columns: 1fr;
+  }
 }
