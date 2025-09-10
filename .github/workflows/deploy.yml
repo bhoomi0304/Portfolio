@@ -1,0 +1,96 @@
+name: Deploy to GitHub Pages
+on:
+  push:
+    branches: ["main"]
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+
+      # Detect Angular project & dist path from angular.json
+      - name: Detect app & dist
+        id: detect
+        run: |
+          APP=$(node -p "Object.keys(require('./angular.json').projects)[0]")
+          DIST=$(node -p "require('./angular.json').projects['$APP'].architect.build.options.outputPath")
+          echo "app=$APP"   >> $GITHUB_OUTPUT
+          echo "dist=$DIST" >> $GITHUB_OUTPUT
+          echo "Detected app: $APP"
+          echo "Detected dist: $DIST"
+
+      # Compute correct base-href for project site /portfolio/
+      - name: Compute base-href
+        id: base
+        run: |
+          REPO=${GITHUB_REPOSITORY#*/}
+          if [ "$REPO" = "${GITHUB_REPOSITORY_OWNER}.github.io" ]; then
+            echo "base=/" >> $GITHUB_OUTPUT
+          else
+            echo "base=/$REPO/" >> $GITHUB_OUTPUT
+          fi
+          echo "Using base-href: $(tail -n1 $GITHUB_OUTPUT | cut -d'=' -f2)"
+
+      - name: Build
+        run: npx ng build --configuration production --base-href "${{ steps.base.outputs.base }}"
+
+      # Normalize output: prefer DIST/browser if it exists; else use DIST
+      - name: Choose final output folder
+        id: out
+        run: |
+          DIST="${{ steps.detect.outputs.dist }}"
+          if [ -d "$DIST/browser" ]; then
+            OUT="$DIST/browser"
+          else
+            OUT="$DIST"
+          fi
+          if [ ! -f "$OUT/index.html" ]; then
+            echo "ERROR: index.html not found in $OUT"
+            echo "Tree of $DIST:"
+            ls -laR "$DIST" || true
+            exit 1
+          fi
+          echo "out=$OUT" >> $GITHUB_OUTPUT
+          echo "Final output folder: $OUT"
+
+      # SPA fallback for deep links
+      - name: Add SPA fallback
+        run: cp "${{ steps.out.outputs.out }}/index.html" "${{ steps.out.outputs.out }}/404.html"
+
+      - name: List output (debug)
+        run: ls -laR "${{ steps.out.outputs.out }}"
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ${{ steps.out.outputs.out }}
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
